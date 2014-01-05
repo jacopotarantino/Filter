@@ -21,10 +21,10 @@ html
     script(src='../js/jquery.min.js')
     script(src='../js/underscore-min.js')
     script(src='../js/angular.min.js')
-    script(src='../js/options.min.js')
+    script(src='../js/options.js')
 
 
-  body(ng-app='filterOptions')
+  body
     .container.header
       .row
         .col-xs-12
@@ -51,7 +51,7 @@ html
       .row
         .col-xs-12
           .row.substitution(
-            ng-repeat='sub in substitutions | filter:search'
+            ng-repeat='sub in substitutions'
           )
             .col-sm-5
               input.form-control( ng-model='sub.selector', ng-change='updateItem()' )
@@ -92,7 +92,7 @@ html
       .row
         .col-xs-12
           .row.substitution(
-            ng-repeat='selector in selectors | filter:search'
+            ng-repeat='selector in selectors'
           )
             .col-sm-5
               input.form-control(

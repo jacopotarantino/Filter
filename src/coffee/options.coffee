@@ -1,5 +1,34 @@
-angular.module('filterOptions', [])
+angular.element(document).ready () ->
+  # make sure that all localStorage items are populated/working before init.
+  chrome.storage.sync.get 'filter.substitutions', (res) ->
+    if typeof res['filter.substitutions'] is 'undefined'
+      chrome.storage.sync.set { 'filter.substitutions': [] }, () ->
+        initSelectors()
+    else
+      initSelectors()
 
+
+  initSelectors = () ->
+    chrome.storage.sync.get 'filter.selectors', (res) ->
+      if typeof res['filter.selectors'] is 'undefined'
+        chrome.storage.sync.set { 'filter.selectors': [] }, () ->
+          initCustomJS()
+      else
+        initCustomJS()
+
+
+  initCustomJS = () ->
+    chrome.storage.sync.get 'filter.customjs', (res) ->
+      if typeof res['filter.customjs'] is 'undefined'
+        chrome.storage.sync.set { 'filter.customjs': {text:''} }, () ->
+          angular.bootstrap document, ['filterOptions']
+      else
+        angular.bootstrap document, ['filterOptions']
+
+
+
+
+angular.module('filterOptions', [])
 
 .controller('substitutionCtrl', ['$window', '$scope', ($window, $scope) ->
   $scope.substitutions = []
@@ -123,3 +152,4 @@ angular.module('filterOptions', [])
     , 200)
 
 ])
+
