@@ -1,0 +1,130 @@
+doctype html
+html
+  head
+    title Filter || Options
+
+    link(
+      rel='stylesheet'
+      href='../css/bootstrap.min.css'
+    )
+    style.
+      body {
+        padding: 30px;
+      }
+      .substitution {
+        padding: 5px 0;
+      }
+      h2 {
+        padding: 30px 0;
+      }
+
+    script(src='../js/jquery.min.js')
+    script(src='../js/underscore-min.js')
+    script(src='../js/angular.min.js')
+    script(src='../js/options.min.js')
+
+
+  body(ng-app='filterOptions')
+    .container.header
+      .row
+        .col-xs-12
+          h1 Filter || Options
+
+
+    .container.substitutions(ng-controller='substitutionCtrl')
+      .row
+        .col-xs-12
+          h2 List of text substitutions:
+          p Selectors are case-insensitive but substitutions are not.
+      .row.search
+        .col-sm-4.col-sm-offset-7
+          input.form-control(
+            ng-model='search'
+            placeholder='Search for substitutions...'
+          )
+      .row.labels
+        .col-sm-5
+          strong Selector
+        .col-sm-5
+          strong Substitutions
+
+      .row
+        .col-xs-12
+          .row.substitution(
+            ng-repeat='sub in substitutions | filter:search'
+          )
+            .col-sm-5
+              input.form-control( ng-model='sub.selector', ng-change='updateItem()' )
+            .col-sm-5
+              input.form-control( ng-model='sub.substitute' )
+            .col-sm-2
+              button.btn.btn-warning(
+                ng-click='removeSubstitution($index)'
+              ) Remove
+
+      .row
+        .col-xs-12
+          h3 Add New Substitution
+      .row
+        .col-sm-5
+          input.form-control( ng-model='newSelector' )
+        .col-sm-5
+          input.form-control( ng-model='newSubstitution' )
+        .col-sm-2
+          button.btn.btn-primary(
+            ng-click='addSubstitution()'
+          ) Add New
+
+
+    .container.remove-selectors(ng-controller='removeTagCtrl')
+      .row
+        .col-xs-12
+          h2 List of CSS selectors for elements to be removed from the page
+      .row.search
+        .col-sm-7
+          strong Selector
+        .col-sm-4
+          input.form-control(
+            ng-model='search'
+            placeholder='Search for selectors...'
+          )
+
+      .row
+        .col-xs-12
+          .row.substitution(
+            ng-repeat='selector in selectors | filter:search'
+          )
+            .col-sm-5
+              input.form-control(
+                ng-model='selector.name'
+                ng-change='updateItem()'
+              )
+            .col-sm-2.col-sm-offset-5
+              button.btn.btn-warning(
+                ng-click='removeSelector($index)'
+              ) Remove
+
+      .row
+        .col-xs-12
+          h3 Add New CSS selector to kill
+      .row
+        .col-sm-5
+          input.form-control( ng-model='newSelector' )
+        .col-sm-2.col-sm-offset-5
+          button.btn.btn-primary(
+            ng-click='addSelector()'
+          ) Add New
+
+
+    .container.custom-js(ng-controller='customJSCtrl')
+      .row
+        .col-xs-12
+          h2 Any custom javascript to be inserted onto all pages
+      .row.search
+        .col-sm-4
+          textarea.form-control(
+            ng-model='customjs.text'
+            ng-change='updateScript()'
+            placeholder='Killer javascript code...'
+          )
+
