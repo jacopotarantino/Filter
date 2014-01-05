@@ -8,7 +8,6 @@ module.exports = (grunt) ->
         files: [ 'src/coffee/**' ]
         tasks: [
           'coffee:js'
-          'uglify:js'
         ]
         options:
           nospawn: true
@@ -25,14 +24,8 @@ module.exports = (grunt) ->
           bare: true
 
         files:
-          'tmp/options.js': 'src/coffee/options.coffee'
+          'js/options.js': 'src/coffee/options.coffee'
           'js/background.js': 'src/coffee/background.coffee'
-
-
-    uglify:
-      js:
-        files:
-          'js/options.min.js': 'tmp/options.js'
 
 
     jade:
@@ -43,7 +36,6 @@ module.exports = (grunt) ->
   
   grunt.loadNpmTasks task for task in [
     'grunt-contrib-coffee'
-    'grunt-contrib-uglify'
     'grunt-contrib-watch'
     'grunt-contrib-jade'
   ]
@@ -51,13 +43,11 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'prod', [
     'coffee'
-    'uglify'
     'jade'
   ]
 
   grunt.registerTask 'default', [
     'coffee'
-    'uglify'
     'jade'
     'watch'
   ]
